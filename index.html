@@ -1,641 +1,328 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Netso – Intelligent Solar for Bangladesh</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!-- Tailwind CDN -->
   <script src="https://cdn.tailwindcss.com"></script>
+
+  <!-- GSAP Animation Engine -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+
   <style>
     html, body {
       scroll-behavior: smooth;
+      -webkit-font-smoothing: antialiased;
+      text-rendering: optimizeLegibility;
+      background: #ffffff;
     }
-    @keyframes fadeInUp {
-      from { opacity: 0; transform: translateY(12px); }
-      to { opacity: 1; transform: translateY(0); }
+
+    .card {
+      border-radius: 1.75rem;
+      background: #ffffff;
+      box-shadow: 0 18px 42px rgba(0,0,0,0.06);
+      transition: transform .3s ease;
     }
-    .animate-fade-in-up {
-      animation: fadeInUp 0.6s ease-out forwards;
+
+    .card:hover {
+      transform: translateY(-4px);
     }
+
+    .glass {
+      background: rgba(255,255,255,0.88);
+      backdrop-filter: blur(22px);
+      box-shadow: 0 8px 40px rgba(0,0,0,0.12);
+      border-radius: 2rem;
+    }
+
+    .parallax-bg {
+      background-size: cover;
+      background-position: center;
+      background-attachment: fixed;
+    }
+
+    /* Solar ray columns */
+    .solar-ray {
+      background: linear-gradient(to bottom,
+        rgba(250, 204, 21, 0) 0%,
+        rgba(250, 204, 21, 0.45) 50%,
+        rgba(250, 204, 21, 0) 100%
+      );
+      opacity: 0.35;
+    }
+
+    .solar-orb {
+      background: radial-gradient(circle at center,
+        rgba(250, 204, 21, 0.35),
+        transparent 70%);
+    }
+
   </style>
+
 </head>
-<body class="bg-white text-neutral-900 antialiased">
-  <main class="min-h-screen bg-white">
-    <!-- Top Nav -->
-    <header class="sticky top-0 z-40 border-b border-neutral-100 bg-white/80 backdrop-blur">
-      <div class="mx-auto flex max-w-6xl items-center justify-between px-4 py-3 sm:px-6 lg:px-8">
-        <div class="flex items-center gap-2">
-          <div class="h-7 w-7 rounded-xl bg-gradient-to-br from-amber-400 via-yellow-300 to-emerald-400 shadow-[0_0_30px_rgba(250,204,21,0.6)]" />
-          <span class="text-sm font-semibold tracking-tight sm:text-base">
-            Netso
-          </span>
+
+<body class="text-neutral-900">
+
+<!-- NAVBAR -->
+<nav class="sticky top-0 z-50 backdrop-blur bg-white/80 border-b border-neutral-100">
+  <div class="max-w-6xl mx-auto px-6 py-4 flex justify-between items-center">
+    <div class="flex items-center gap-2">
+      <div class="h-7 w-7 rounded-xl bg-gradient-to-br from-amber-400 via-yellow-300 to-emerald-400 shadow"></div>
+      <span class="text-lg font-semibold tracking-tight">Netso</span>
+    </div>
+
+    <div class="hidden md:flex gap-8 text-sm text-neutral-600">
+      <a href="#how" class="hover:text-black">How It Works</a>
+      <a href="#dashboard" class="hover:text-black">Dashboard</a>
+      <a href="#finance" class="hover:text-black">Financing</a>
+      <a href="#install" class="hover:text-black">Installation</a>
+    </div>
+
+    <button class="rounded-full bg-neutral-900 text-white px-5 py-2 text-sm hover:bg-black transition">
+      Join Waitlist
+    </button>
+  </div>
+</nav>
+
+<!-- CINEMATIC HERO -->
+<header class="relative h-[92vh] w-full overflow-hidden flex items-center">
+
+  <!-- Bangladesh rooftop background -->
+  <div 
+    class="absolute inset-0 bg-cover bg-center parallax-bg"
+    style="background-image: url('https://source.unsplash.com/1600x900/?bangladesh,rooftop,solar');">
+  </div>
+
+  <!-- Cinematic gradient glow -->
+  <div class="absolute -top-32 -left-32 w-[450px] h-[450px] rounded-full solar-orb blur-3xl"></div>
+  <div class="absolute -bottom-32 -right-32 w-[450px] h-[450px] rounded-full solar-orb blur-3xl opacity-40"></div>
+
+  <!-- Solar ray container -->
+  <div id="solarRays" class="absolute inset-0 pointer-events-none"></div>
+
+  <!-- HERO COPY -->
+  <div class="relative z-10 max-w-6xl mx-auto px-6">
+    <h1 class="text-5xl md:text-6xl font-semibold leading-tight tracking-tight mb-6 opacity-0" id="heroTitle">
+      Powering Bangladesh<br />with Intelligent Solar.
+    </h1>
+
+    <p class="text-neutral-700 text-lg max-w-xl mb-10 opacity-0" id="heroSub">
+      Clean energy, effortless monitoring, and flexible EMI financing —  
+      all in one beautifully intelligent solar system.
+    </p>
+
+    <div class="flex gap-4 opacity-0" id="heroButtons">
+      <button class="px-6 py-3 rounded-full bg-neutral-900 text-white hover:bg-black transition">
+        Get Started
+      </button>
+      <button class="px-6 py-3 rounded-full border border-neutral-300 hover:bg-neutral-100 transition">
+        Explore Dashboard
+      </button>
+    </div>
+  </div>
+
+  <!-- Floating Dashboard Glass Card -->
+  <div 
+    id="floatingCard"
+    class="absolute right-8 md:right-20 bottom-8 md:bottom-20 w-[280px] sm:w-[320px] glass p-6 opacity-0">
+
+    <p class="text-[11px] uppercase tracking-widest text-neutral-500">Today’s Production</p>
+    <p class="text-4xl font-semibold text-emerald-600">18.4 kWh</p>
+    <p class="text-xs text-neutral-500 mt-1">+32% vs Weekday</p>
+
+    <div class="h-px w-full bg-gradient-to-r from-amber-300 via-neutral-300 to-emerald-300 my-4"></div>
+
+    <p class="text-[11px] uppercase tracking-widest text-neutral-500">Monthly Savings</p>
+    <p class="text-3xl font-semibold text-amber-500">৳ 4,820</p>
+
+    <p class="mt-4 text-[11px] text-neutral-500">
+      Designed like an Apple product.<br />Powered by Bangladesh’s sunlight.
+    </p>
+  </div>
+
+</header>
+
+<!-- HOW NETSO WORKS -->
+<section id="how" class="max-w-6xl mx-auto px-6 py-24">
+  <h2 class="text-3xl font-semibold mb-2">How Netso Works</h2>
+  <p class="text-neutral-600 max-w-xl mb-12">A seamless, intelligent solar journey — explained visually.</p>
+
+  <div class="grid md:grid-cols-3 gap-8">
+    <div class="card p-10" id="step1">
+      <img src="https://source.unsplash.com/300x300/?bangladesh,home" class="rounded-2xl mb-6 w-full">
+      <h3 class="font-semibold text-lg mb-2">Assess Your Rooftop</h3>
+      <p class="text-neutral-600">We evaluate your building & design the ideal system.</p>
+    </div>
+
+    <div class="card p-10" id="step2">
+      <img src="https://source.unsplash.com/300x300/?solar,panel" class="rounded-2xl mb-6 w-full">
+      <h3 class="font-semibold text-lg mb-2">Install Seamlessly</h3>
+      <p class="text-neutral-600">Certified professionals handle everything.</p>
+    </div>
+
+    <div class="card p-10" id="step3">
+      <img src="https://source.unsplash.com/300x300/?energy,dashboard" class="rounded-2xl mb-6 w-full">
+      <h3 class="font-semibold text-lg mb-2">Track & Save</h3>
+      <p class="text-neutral-600">Live monitoring, production insights & savings.</p>
+    </div>
+  </div>
+</section>
+
+<!-- DASHBOARD PREVIEW -->
+<section id="dashboard" class="w-full bg-neutral-50 py-24">
+  <div class="max-w-6xl mx-auto px-6">
+    <h2 class="text-3xl font-semibold mb-2">Your Intelligent Dashboard</h2>
+    <p class="text-neutral-600 max-w-xl mb-12">Designed with world-class UI. Built for Bangladesh.</p>
+
+    <div class="glass p-10 shadow-xl" id="dashPreview">
+
+      <div class="grid md:grid-cols-3 gap-10">
+        <div>
+          <p class="text-neutral-500 text-sm">Today's Production</p>
+          <p class="text-4xl font-semibold text-emerald-600 mt-2">124.3 kWh</p>
         </div>
 
-        <nav class="hidden items-center gap-8 text-xs text-neutral-600 sm:flex">
-          <a href="#product" class="hover:text-neutral-900 transition">
-            Product
-          </a>
-          <a href="#dashboard" class="hover:text-neutral-900 transition">
-            Dashboard
-          </a>
-          <a href="#financing" class="hover:text-neutral-900 transition">
-            Financing
-          </a>
-          <a href="#install" class="hover:text-neutral-900 transition">
-            Installation
-          </a>
-        </nav>
+        <div>
+          <p class="text-neutral-500 text-sm">Monthly Savings</p>
+          <p class="text-4xl font-semibold text-amber-500 mt-2">৳ 38,900</p>
+        </div>
 
-        <div class="flex items-center gap-3">
-          <button class="hidden rounded-full border border-neutral-200 px-4 py-1.5 text-xs font-medium text-neutral-800 hover:bg-neutral-50 sm:inline-flex">
-            Partner Login
-          </button>
-          <button class="rounded-full bg-neutral-900 px-4 py-1.5 text-xs font-medium text-neutral-50 hover:bg-black">
-            Join Waitlist
-          </button>
+        <div>
+          <p class="text-neutral-500 text-sm">CO₂ Avoided</p>
+          <p class="text-4xl font-semibold text-neutral-800 mt-2">640 kg</p>
         </div>
       </div>
-    </header>
 
-    <!-- Hero -->
-    <section
-        id="hero"
-        class="relative overflow-hidden border-b border-neutral-100"
-      >
-        <div class="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_top,_rgba(251,191,36,0.16),transparent_60%)]" />
-        <div class="mx-auto flex max-w-6xl flex-col items-center gap-12 px-4 pb-24 pt-16 sm:px-6 lg:flex-row lg:px-8 lg:pb-28 lg:pt-24">
-          <div class="relative z-10 max-w-xl text-center lg:text-left">
-            <p class="mb-4 text-xs font-semibold uppercase tracking-[0.2em] text-amber-500">
-              Intelligent Solar · Bangladesh
-            </p>
-            <h1 class="mb-5 text-4xl font-semibold tracking-tight sm:text-5xl lg:text-6xl">
-              Powering Bangladesh
-              <br />
-              with intelligent solar.
-            </h1>
-            <p class="mb-8 text-sm leading-relaxed text-neutral-600 sm:text-base">
-              Clean energy, effortless monitoring, and flexible financing —
-              all in one beautifully designed system. From households to
-              factories, Netso makes solar feel as simple as using your phone.
-            </p>
+    </div>
+  </div>
+</section>
 
-            <div class="mb-4 flex flex-wrap items-center justify-center gap-3 lg:justify-start">
-              <button class="rounded-full bg-neutral-900 px-5 py-2 text-sm font-medium text-neutral-50 hover:bg-black">
-                Get Started
-              </button>
-              <button class="rounded-full border border-neutral-200 px-5 py-2 text-sm font-medium text-neutral-800 hover:bg-neutral-50">
-                Explore Dashboard
-              </button>
-            </div>
-            <p class="text-[11px] text-neutral-500">
-              Designed in Bangladesh. Optimized for every ray of sunlight.
-            </p>
-          </div>
+<!-- FINANCING -->
+<section id="finance" class="max-w-6xl mx-auto px-6 py-24">
+  <h2 class="text-3xl font-semibold mb-2">Financing Designed for Bangladesh</h2>
+  <p class="text-neutral-600 max-w-xl mb-12">Go solar without the upfront pain. Flexible EMI options for all.</p>
 
-          <!-- Hero visual -->
-          <div class="relative z-10 flex flex-1 justify-center">
-            <div class="relative h-[320px] w-[320px] rounded-[2.5rem] bg-gradient-to-br from-neutral-900 via-neutral-950 to-neutral-800 p-[1px] shadow-[0_22px_60px_rgba(0,0,0,0.45)] sm:h-[360px] sm:w-[360px]">
-              <div class="relative flex h-full w-full flex-col justify-between overflow-hidden rounded-[2.3rem] bg-gradient-to-b from-neutral-900 via-neutral-950 to-black">
-                <!-- Glow -->
-                <div class="pointer-events-none absolute inset-x-0 top-0 h-40 bg-[radial-gradient(circle_at_top,_rgba(251,191,36,0.35),transparent_60%)]" />
+  <div class="grid md:grid-cols-3 gap-8">
 
-                <!-- Top info -->
-                <div class="relative flex items-center justify-between px-6 pt-6">
-                  <div>
-                    <p class="text-[11px] uppercase tracking-[0.25em] text-neutral-400">
-                      Netso Monitor
-                    </p>
-                    <p class="mt-1 text-xs text-neutral-200">
-                      Live rooftop production
-                    </p>
-                  </div>
-                  <div class="rounded-full bg-white/5 px-3 py-1 text-[11px] text-neutral-200 ring-1 ring-white/10">
-                    Dhaka · ☀ 32°C
-                  </div>
-                </div>
+    <div class="card p-10">
+      <h3 class="font-semibold text-xl mb-2">EMI Plans</h3>
+      <p class="text-neutral-600">Pay in 12–60 months.</p>
+    </div>
 
-                <!-- Center solar grid -->
-                <div class="relative flex flex-1 flex-col items-center justify-center px-6">
-                  <div class="mb-5 text-center">
-                    <p class="text-[11px] uppercase tracking-[0.25em] text-neutral-400">
-                      Today&apos;s Production
-                    </p>
-                    <p class="mt-2 text-4xl font-semibold text-emerald-300">
-                      18.4 kWh
-                    </p>
-                    <p class="mt-1 text-[11px] text-neutral-400">
-                      +32% vs typical weekday
-                    </p>
-                  </div>
+    <div class="card p-10">
+      <h3 class="font-semibold text-xl mb-2">Lease-to-own</h3>
+      <p class="text-neutral-600">Own the system at the end of term.</p>
+    </div>
 
-                  <div class="grid w-full max-w-xs grid-cols-4 gap-1 rounded-2xl bg-neutral-900/60 p-3 ring-1 ring-white/5 backdrop-blur">
-                    <!-- Fill the grid with 16 items -->
-                    
-                  </div>
-                </div>
+    <div class="card p-10">
+      <h3 class="font-semibold text-xl mb-2">Pay-as-you-generate</h3>
+      <p class="text-neutral-600">Perfect for factories & businesses.</p>
+    </div>
 
-                <!-- Bottom stats -->
-                <div class="relative flex items-center justify-between border-t border-white/5 px-6 py-4 text-[11px] text-neutral-300">
-                  <div>
-                    <p class="text-neutral-400">Monthly savings</p>
-                    <p class="mt-1 text-sm font-semibold text-emerald-300">
-                      ৳ 4,820
-                    </p>
-                  </div>
-                  <div class="h-10 w-[1px] bg-gradient-to-b from-transparent via-white/10 to-transparent" />
-                  <div>
-                    <p class="text-neutral-400">CO₂ avoided</p>
-                    <p class="mt-1 text-sm font-semibold text-neutral-100">
-                      126 kg
-                    </p>
-                  </div>
-                  <div class="h-10 w-[1px] bg-gradient-to-b from-transparent via-white/10 to-transparent" />
-                  <div>
-                    <p class="text-neutral-400">Status</p>
-                    <p class="mt-1 text-sm font-semibold text-emerald-300">
-                      Optimal ☀
-                    </p>
-                  </div>
-                </div>
-              </div>
+  </div>
+</section>
 
-              <!-- subtle background orbs -->
-              <div class="pointer-events-none absolute -left-10 -top-10 h-40 w-40 rounded-full bg-amber-300/30 blur-3xl" />
-              <div class="pointer-events-none absolute -bottom-6 -right-10 h-40 w-40 rounded-full bg-emerald-300/30 blur-3xl" />
-            </div>
-          </div>
-        </div>
-      </section>
+<!-- INSTALLATION -->
+<section id="install" class="py-24 bg-white">
+  <div class="max-w-6xl mx-auto px-6">
 
-      <!-- Product section -->
-      <section id="product" class="border-b border-neutral-100 bg-white">
-        <div class="mx-auto max-w-6xl px-4 py-20 sm:px-6 lg:px-8 lg:py-24">
-          <div class="grid gap-12 lg:grid-cols-2 lg:items-center">
-            <div>
-              <h2 class="mb-4 text-xs font-semibold uppercase tracking-[0.2em] text-neutral-500">
-                Hardware + Software
-              </h2>
-              <p class="mb-4 text-3xl font-semibold tracking-tight sm:text-4xl">
-                Beautiful. Efficient.
-                <br />
-                Built to last.
-              </p>
-              <p class="mb-6 text-sm leading-relaxed text-neutral-600 sm:text-base">
-                Netso combines premium solar hardware with a meticulously
-                designed digital experience. From the rooftop to your phone,
-                every interaction is engineered to feel effortless.
-              </p>
+    <h2 class="text-3xl font-semibold mb-2">Installation Journey</h2>
+    <p class="text-neutral-600 max-w-xl mb-12">Every step handled smoothly — end to end.</p>
 
-              <dl class="grid gap-4 text-sm text-neutral-700 sm:grid-cols-2">
-                <div class="rounded-2xl border border-neutral-100 bg-neutral-50/60 p-4">
-                  <dt class="mb-1 text-xs font-semibold uppercase tracking-wide text-neutral-500">
-                    Smart metering
-                  </dt>
-                  <dd>Real-time insights on production, usage, and export.</dd>
-                </div>
-                <div class="rounded-2xl border border-neutral-100 bg-neutral-50/60 p-4">
-                  <dt class="mb-1 text-xs font-semibold uppercase tracking-wide text-neutral-500">
-                    Multi-segment ready
-                  </dt>
-                  <dd>Homes, businesses, factories, and remote solar farms.</dd>
-                </div>
-                <div class="rounded-2xl border border-neutral-100 bg-neutral-50/60 p-4">
-                  <dt class="mb-1 text-xs font-semibold uppercase tracking-wide text-neutral-500">
-                    Remote diagnostics
-                  </dt>
-                  <dd>Detect panel performance issues before they cost you.</dd>
-                </div>
-                <div class="rounded-2xl border border-neutral-100 bg-neutral-50/60 p-4">
-                  <dt class="mb-1 text-xs font-semibold uppercase tracking-wide text-neutral-500">
-                    Netso Care
-                  </dt>
-                  <dd>Optional zero-maintenance plans with full monitoring.</dd>
-                </div>
-              </dl>
-            </div>
+    <ol class="grid md:grid-cols-6 grid-cols-2 gap-6 text-center">
 
-            <!-- Hardware visuals -->
-            <div class="relative flex flex-col gap-6 lg:pl-10">
-              <div class="relative rounded-3xl bg-gradient-to-br from-neutral-900 via-neutral-950 to-neutral-800 p-[1px] shadow-[0_22px_60px_rgba(15,23,42,0.55)]">
-                <div class="flex items-center justify-between rounded-[1.45rem] bg-neutral-950 px-6 py-5">
-                  <div>
-                    <p class="text-xs font-medium text-neutral-200">
-                      Netso Smart Meter
-                    </p>
-                    <p class="mt-1 text-[11px] text-neutral-400">
-                      Precision monitoring · Sub-second refresh
-                    </p>
-                  </div>
-                  <div class="flex items-end gap-1">
-                    <span class="text-2xl font-semibold text-emerald-300">
-                      4.6
-                    </span>
-                    <span class="pb-1 text-[11px] text-neutral-400">
-                      kW output
-                    </span>
-                  </div>
-                </div>
-              </div>
+      <li class="card p-6">1. Assessment</li>
+      <li class="card p-6">2. Design</li>
+      <li class="card p-6">3. Financing</li>
+      <li class="card p-6">4. Installation</li>
+      <li class="card p-6">5. Meter Setup</li>
+      <li class="card p-6">6. Monitoring</li>
 
-              <div class="grid gap-4 sm:grid-cols-2">
-                <div class="group relative overflow-hidden rounded-3xl bg-gradient-to-br from-neutral-100 via-neutral-50 to-white p-5 shadow-[0_18px_40px_rgba(0,0,0,0.04)]">
-                  <div class="mb-10 text-xs font-medium text-neutral-800">
-                    Rooftop solar arrays
-                  </div>
-                  <div class="h-24 rounded-2xl bg-[linear-gradient(135deg,#0f172a,#020617)] shadow-[0_0_35px_rgba(15,118,110,0.55)] transition-transform duration-500 group-hover:-translate-y-1" />
-                  <p class="mt-4 text-[11px] text-neutral-500">
-                    Optimized for Bangladesh rooftops, from single homes to
-                    mixed-use buildings.
-                  </p>
-                </div>
-                <div class="group relative overflow-hidden rounded-3xl bg-gradient-to-br from-neutral-900 via-neutral-950 to-black p-5 shadow-[0_18px_40px_rgba(0,0,0,0.6)]">
-                  <div class="mb-10 text-xs font-medium text-neutral-100">
-                    Industrial installations
-                  </div>
-                  <div class="h-24 rounded-2xl bg-[radial-gradient(circle_at_top,_rgba(251,191,36,0.4),transparent_55%),linear-gradient(135deg,#020617,#020617)] shadow-[0_0_35px_rgba(234,179,8,0.65)] transition-transform duration-500 group-hover:-translate-y-1" />
-                  <p class="mt-4 text-[11px] text-neutral-400">
-                    High-capacity industrial setups with 24/7 visibility into
-                    production and uptime.
-                  </p>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
+    </ol>
 
-      <!-- Dashboard section -->
-      <section
-        id="dashboard"
-        class="border-b border-neutral-100 bg-neutral-50/70"
-      >
-        <div class="mx-auto max-w-6xl px-4 py-20 sm:px-6 lg:px-8 lg:py-24">
-          <div class="mb-10 flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
-            <div>
-              <h2 class="mb-3 text-xs font-semibold uppercase tracking-[0.2em] text-neutral-500">
-                Netso Dashboard
-              </h2>
-              <p class="text-3xl font-semibold tracking-tight sm:text-4xl">
-                Your entire solar system,
-                <br />
-                at a glance.
-              </p>
-            </div>
-            <p class="max-w-sm text-sm text-neutral-600">
-              Monitor production, savings, panel health, and payments — across
-              all your sites — from a single, beautifully minimal dashboard.
-            </p>
-          </div>
+  </div>
+</section>
 
-          <div class="grid gap-8 lg:grid-cols-[1.7fr,1.1fr] lg:items-center">
-            <!-- Mac + Dashboard -->
-            <div
-              class="relative rounded-[2rem] bg-gradient-to-br from-neutral-900 via-neutral-950 to-black p-4 shadow-[0_22px_60px_rgba(0,0,0,0.75)] transition-transform duration-500 hover:-translate-y-1.5"
-            >
-              <div class="rounded-[1.6rem] bg-neutral-950/80 p-5 ring-1 ring-white/10">
-                <div class="mb-4 flex items-center justify-between text-[11px] text-neutral-400">
-                  <span>Netso · Central Dashboard</span>
-                  <span>Live • Last sync 2s ago</span>
-                </div>
+<!-- FOOTER -->
+<footer class="border-t border-neutral-200 py-10">
+  <div class="max-w-6xl mx-auto px-6 flex justify-between text-sm text-neutral-500">
+    <span>© 2025 Netso Energy</span>
+    <div class="flex gap-6">
+      <a href="#" class="hover:text-black">About</a>
+      <a href="#" class="hover:text-black">Careers</a>
+      <a href="#" class="hover:text-black">Contact</a>
+    </div>
+  </div>
+</footer>
 
-                <div class="grid gap-4 md:grid-cols-[1.6fr,1.1fr]">
-                  <div class="rounded-2xl bg-neutral-900/70 p-4 ring-1 ring-white/5">
-                    <p class="text-xs text-neutral-300">
-                      Today&apos;s generation
-                    </p>
-                    <p class="mt-2 text-3xl font-semibold text-emerald-300">
-                      124.3 kWh
-                    </p>
-                    <p class="mt-1 text-[11px] text-neutral-500">
-                      +18% vs last 7-day average
-                    </p>
+<!-- GSAP ANIMATIONS (HERO + SECTIONS) -->
+<script>
+gsap.registerPlugin(ScrollTrigger);
 
-                    <!-- mini chart -->
-                    <div class="mt-4 flex h-24 items-end gap-1 rounded-xl bg-neutral-900/80 p-3">
-                      
-                    </div>
-                    <p class="mt-2 text-[10px] text-neutral-500">
-                      Hourly generation from sunrise to sunset.
-                    </p>
-                  </div>
+/* Build solar rays */
+const rays = document.getElementById("solarRays");
+let raysHTML = "";
+for (let i = 0; i < 16; i++) {
+  raysHTML += `
+    <div class="absolute top-0 solar-ray w-[3px] h-full left-[${i * 6}%]"></div>
+  `;
+}
+rays.innerHTML = raysHTML;
 
-                  <div class="space-y-3">
-                    <div class="rounded-2xl bg-neutral-900/70 p-4 ring-1 ring-white/5">
-                      <p class="text-xs text-neutral-300">Active sites</p>
-                      <p class="mt-2 text-2xl font-semibold text-neutral-50">
-                        7
-                      </p>
-                      <p class="mt-1 text-[11px] text-neutral-500">
-                        5 rooftop · 2 industrial
-                      </p>
-                    </div>
-                    <div class="rounded-2xl bg-neutral-900/70 p-4 ring-1 ring-white/5">
-                      <p class="text-xs text-neutral-300">Monthly savings</p>
-                      <p class="mt-2 text-2xl font-semibold text-emerald-300">
-                        ৳ 38,900
-                      </p>
-                      <p class="mt-1 text-[11px] text-neutral-500">
-                        Projected vs grid-only scenario.
-                      </p>
-                    </div>
-                    <div class="rounded-2xl bg-neutral-900/70 p-4 ring-1 ring-white/5">
-                      <p class="text-xs text-neutral-300">
-                        Panel health index
-                      </p>
-                      <div class="mt-2 flex items-center justify-between">
-                        <p class="text-xl font-semibold text-neutral-50">
-                          96%
-                        </p>
-                        <div class="h-2 flex-1 rounded-full bg-neutral-800">
-                          <div class="h-2 w-[96%] rounded-full bg-gradient-to-r from-emerald-400 to-amber-300" />
-                        </div>
-                      </div>
-                      <p class="mt-1 text-[11px] text-neutral-500">
-                        1 site flagged for cleaning.
-                      </p>
-                    </div>
-                  </div>
-                </div>
-              </div>
+/* Solar ray movement */
+gsap.to("#solarRays div", {
+  y: 80,
+  repeat: -1,
+  duration: 4,
+  ease: "power1.inOut",
+  stagger: 0.2,
+  yoyo: true
+});
 
-              <!-- Macbook-ish frame -->
-              <div class="mt-2 h-3 rounded-b-[1.2rem] bg-neutral-900" />
-            </div>
+/* Parallax hero background */
+gsap.to(".parallax-bg", {
+  y: 60,
+  ease: "none",
+  scrollTrigger: {
+    trigger: ".parallax-bg",
+    start: "top top",
+    end: "bottom top",
+    scrub: true
+  }
+});
 
-            <!-- iPhone preview + bullets -->
-            <div class="space-y-6">
-              <div
-                class="relative mx-auto h-80 w-40 rounded-[2rem] bg-neutral-900 p-[3px] shadow-[0_22px_60px_rgba(15,23,42,0.5)] sm:mx-0"
-              >
-                <div class="flex h-full w-full flex-col rounded-[1.8rem] bg-gradient-to-b from-neutral-900 via-neutral-950 to-black p-3">
-                  <div class="mb-3 flex items-center justify-between text-[10px] text-neutral-400">
-                    <span>Netso</span>
-                    <span>4:20</span>
-                  </div>
+/* Hero elements */
+gsap.from("#heroTitle", {opacity: 0, y: 40, duration: 1});
+gsap.from("#heroSub", {opacity: 0, y: 40, duration: 1, delay: .3});
+gsap.from("#heroButtons", {opacity: 0, y: 40, duration: 1, delay: .6});
+gsap.from("#floatingCard", {opacity: 0, y: 60, scale: .92, duration: 1.2, ease: "easeOut"});
 
-                  <div class="rounded-2xl bg-neutral-900/70 p-3 ring-1 ring-white/10">
-                    <p class="text-[10px] text-neutral-300">
-                      Current site
-                    </p>
-                    <p class="mt-1 text-sm font-semibold text-neutral-50">
-                      Gulshan Rooftop
-                    </p>
-                    <p class="mt-1 text-[10px] text-neutral-500">
-                      Live • Optimal ☀
-                    </p>
+/* Step Cards (How It Works) */
+gsap.from("#step1, #step2, #step3", {
+  opacity: 0,
+  y: 40,
+  duration: 1,
+  stagger: .2,
+  scrollTrigger: {
+    trigger: "#how",
+    start: "top 80%"
+  }
+});
 
-                    <div class="mt-3 flex items-end justify-between">
-                      <div>
-                        <p class="text-[10px] text-neutral-400">
-                          Now generating
-                        </p>
-                        <p class="mt-1 text-lg font-semibold text-emerald-300">
-                          3.2 kW
-                        </p>
-                      </div>
-                      <div class="h-10 w-10 rounded-full bg-[conic-gradient(from_180deg,#22c55e_0deg,#facc15_220deg,#444_220deg)] p-[2px]">
-                        <div class="flex h-full w-full items-center justify-center rounded-full bg-black">
-                          <span class="text-[9px] text-neutral-200">
-                            72%
-                          </span>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
+/* Dashboard Preview */
+gsap.from("#dashPreview", {
+  opacity: 0,
+  y: 60,
+  duration: 1.1,
+  scrollTrigger: {
+    trigger: "#dashboard",
+    start: "top 80%"
+  }
+});
+</script>
 
-                  <div class="mt-3 space-y-2">
-                    
-                  </div>
-
-                  <div class="mt-3 flex items-center justify-between text-[9px] text-neutral-500">
-                    <span>View EMI schedule</span>
-                    <span>Support · Chat</span>
-                  </div>
-                </div>
-              </div>
-
-              <ul class="space-y-3 text-sm text-neutral-700">
-                <li>
-                  <span class="mr-2 rounded-full bg-neutral-900 px-2 py-0.5 text-[10px] font-medium text-neutral-50">
-                    Live
-                  </span>
-                  Instant visibility into every connected site.
-                </li>
-                <li>
-                  <span class="mr-2 rounded-full bg-neutral-100 px-2 py-0.5 text-[10px] font-medium text-neutral-700">
-                    Smart alerts
-                  </span>
-                  Get notified for unexpected drops, shading, and inverter
-                  issues.
-                </li>
-                <li>
-                  <span class="mr-2 rounded-full bg-emerald-100 px-2 py-0.5 text-[10px] font-medium text-emerald-700">
-                    Reports
-                  </span>
-                  Monthly performance reports you can share with management or
-                  family.
-                </li>
-              </ul>
-
-              <p class="text-[11px] text-neutral-500">
-                Works seamlessly across desktop and mobile. Designed to feel
-                like a native app on every device.
-              </p>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <!-- Financing -->
-      <section
-        id="financing"
-        class="border-b border-neutral-100 bg-neutral-950 text-neutral-50"
-      >
-        <div class="mx-auto max-w-6xl px-4 py-20 sm:px-6 lg:px-8 lg:py-24">
-          <div class="mb-10 flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
-            <div>
-              <h2 class="mb-3 text-xs font-semibold uppercase tracking-[0.2em] text-neutral-400">
-                Financing
-              </h2>
-              <p class="text-3xl font-semibold tracking-tight sm:text-4xl">
-                Solar that pays
-                <br />
-                for itself.
-              </p>
-            </div>
-            <p class="max-w-sm text-sm text-neutral-400">
-              We design financing around your cashflow — from households to
-              large factories. Go solar without the upfront pain.
-            </p>
-          </div>
-
-          <div class="grid gap-6 lg:grid-cols-4">
-            
-          </div>
-
-          <div class="mt-10 flex flex-col gap-4 rounded-3xl bg-gradient-to-r from-amber-400/10 via-emerald-400/10 to-sky-400/10 p-6 text-sm ring-1 ring-white/10 sm:flex-row sm:items-center sm:justify-between">
-            <div>
-              <p class="text-xs font-semibold uppercase tracking-[0.2em] text-neutral-400">
-                EMI Estimator
-              </p>
-              <p class="mt-2 text-sm text-neutral-200">
-                A 5kW rooftop system could cost roughly 
-                <span class="font-semibold text-emerald-300">
-                  ৳ X,XXX / month
-                </span> 
-                on EMI, depending on location and configuration.
-              </p>
-              <p class="mt-1 text-[11px] text-neutral-500">
-                Exact pricing varies by site, hardware spec, and partner.
-              </p>
-            </div>
-            <button class="inline-flex items-center justify-center rounded-full bg-neutral-50 px-5 py-2 text-xs font-medium text-neutral-900 hover:bg-white">
-              Check your eligibility
-            </button>
-          </div>
-        </div>
-      </section>
-
-      <!-- Installation Journey -->
-      <section
-        id="install"
-        class="border-b border-neutral-100 bg-white text-neutral-900"
-      >
-        <div class="mx-auto max-w-6xl px-4 py-20 sm:px-6 lg:px-8 lg:py-24">
-          <div class="mb-8">
-            <h2 class="mb-3 text-xs font-semibold uppercase tracking-[0.2em] text-neutral-500">
-              Journey
-            </h2>
-            <p class="text-3xl font-semibold tracking-tight sm:text-4xl">
-              Installation, without the headache.
-            </p>
-            <p class="mt-3 max-w-xl text-sm text-neutral-600">
-              From first assessment to live monitoring, Netso orchestrates
-              every step so you don&apos;t have to chase anyone.
-            </p>
-          </div>
-
-          <ol class="relative grid gap-6 text-sm text-neutral-700 sm:grid-cols-3 lg:grid-cols-6">
-            
-          </ol>
-        </div>
-      </section>
-
-      <!-- Mobile App / CTA -->
-      <section class="bg-neutral-50">
-        <div class="mx-auto flex max-w-6xl flex-col gap-10 px-4 py-16 sm:px-6 lg:flex-row lg:items-center lg:px-8 lg:py-20">
-          <div class="flex-1">
-            <h2 class="mb-3 text-xs font-semibold uppercase tracking-[0.2em] text-neutral-500">
-              Netso App
-            </h2>
-            <p class="text-3xl font-semibold tracking-tight sm:text-4xl">
-              Netso in your pocket.
-            </p>
-            <p class="mt-3 text-sm text-neutral-600">
-              Track your solar performance, pay EMIs, and request support — all
-              from a single app that feels like it shipped with your phone.
-            </p>
-            <ul class="mt-5 space-y-2 text-sm text-neutral-700">
-              <li>• Live production and savings overview</li>
-              <li>• EMI due dates and one-tap payments</li>
-              <li>• Panel health and cleaning reminders</li>
-              <li>• Direct chat with Netso support</li>
-            </ul>
-            <div class="mt-6 flex flex-wrap items-center gap-3">
-              <button class="rounded-full bg-neutral-900 px-5 py-2 text-sm font-medium text-neutral-50 hover:bg-black">
-                Join the waitlist
-              </button>
-              <button class="rounded-full border border-neutral-200 px-5 py-2 text-sm font-medium text-neutral-800 hover:bg-neutral-50">
-                Become an installer
-              </button>
-            </div>
-          </div>
-
-          <div class="flex flex-1 justify-center lg:justify-end">
-            <div class="relative h-80 w-40 rounded-[2rem] bg-neutral-900 p-[3px] shadow-[0_22px_60px_rgba(15,23,42,0.5)]">
-              <div class="flex h-full w-full flex-col rounded-[1.8rem] bg-gradient-to-b from-neutral-900 via-neutral-950 to-black p-3">
-                <div class="mb-3 text-[10px] text-neutral-400">
-                  Netso • Overview
-                </div>
-
-                <div class="rounded-2xl bg-neutral-900/70 p-3 ring-1 ring-white/10">
-                  <p class="text-[10px] text-neutral-300">Portfolio</p>
-                  <p class="mt-1 text-sm font-semibold text-neutral-50">
-                    7 active systems
-                  </p>
-                  <p class="mt-1 text-[10px] text-neutral-500">
-                    Last 30 days
-                  </p>
-
-                  <div class="mt-3 space-y-2 text-[10px] text-neutral-300">
-                    <div class="flex items-center justify-between">
-                      <span>Energy generated</span>
-                      <span class="font-medium text-emerald-300">
-                        1.92 MWh
-                      </span>
-                    </div>
-                    <div class="flex items-center justify-between">
-                      <span>Bill savings</span>
-                      <span class="font-medium text-emerald-300">
-                        ৳ 118,400
-                      </span>
-                    </div>
-                    <div class="flex items-center justify-between">
-                      <span>CO₂ avoided</span>
-                      <span class="font-medium text-neutral-100">
-                        640 kg
-                      </span>
-                    </div>
-                  </div>
-                </div>
-
-                <div class="mt-3 flex flex-1 flex-col justify-between rounded-2xl bg-neutral-900/70 p-3 ring-1 ring-white/10">
-                  <p class="text-[10px] text-neutral-300">
-                    Upcoming EMI · Gulshan Rooftop
-                  </p>
-                  <div>
-                    <p class="mt-2 text-lg font-semibold text-neutral-50">
-                      ৳ 9,800
-                    </p>
-                    <p class="mt-1 text-[10px] text-neutral-500">
-                      Due in 3 days · bKash / bank transfer
-                    </p>
-                  </div>
-                  <button class="mt-3 w-full rounded-full bg-neutral-50 py-1.5 text-[10px] font-medium text-neutral-900 hover:bg-white">
-                    Pay early
-                  </button>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <!-- Footer -->
-      <footer class="border-t border-neutral-100 bg-white">
-        <div class="mx-auto flex max-w-6xl flex-col gap-4 px-4 py-6 text-[11px] text-neutral-500 sm:flex-row sm:items-center sm:justify-between sm:px-6 lg:px-8">
-          <div class="flex items-center gap-2">
-            <div class="h-5 w-5 rounded-xl bg-gradient-to-br from-amber-400 via-yellow-300 to-emerald-400" />
-            <span>© 2025 Netso Energy.</span>
-          </div>
-          <div class="flex flex-wrap gap-4">
-            <a href="#" class="hover:text-neutral-900">
-              About
-            </a>
-            <a href="#" class="hover:text-neutral-900">
-              Solar plans
-            </a>
-            <a href="#" class="hover:text-neutral-900">
-              Installers
-            </a>
-            <a href="#" class="hover:text-neutral-900">
-              Careers
-            </a>
-            <a href="#" class="hover:text-neutral-900">
-              Contact
-            </a>
-          </div>
-        </div>
-      </footer>
-    </main>
-  </body>
+</body>
 </html>
