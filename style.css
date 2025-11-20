@@ -1,0 +1,910 @@
+/* ============================================================
+   GLOBAL VARIABLES & BASE
+   ============================================================ */
+
+:root {
+    --bg-dark: #000;
+    --bg-light: #ffffff;
+    --text-primary: #ffffff;
+    --text-secondary: rgba(255,255,255,0.7);
+    --accent: #ffcc40;
+    --green: #22ff88;
+    --orange: #ff9f40;
+    --smooth: cubic-bezier(0.25, 0.1, 0.25, 1);
+}
+
+html, body {
+    margin: 0;
+    padding: 0;
+    background: var(--bg-dark);
+    color: var(--text-primary);
+    font-family: -apple-system, BlinkMacSystemFont, "Inter", "SF Pro Display", sans-serif;
+    scroll-behavior: smooth;
+}
+
+img {
+    max-width: 100%;
+    display: block;
+}
+
+button {
+    cursor: pointer;
+    border: none;
+    outline: none;
+    font-family: inherit;
+}
+
+h1, h2, h3, h4, h5 {
+    margin: 0;
+    font-weight: 600;
+}
+
+p {
+    margin: 0;
+}
+
+/* ============================================================
+   PRELOADER
+   ============================================================ */
+
+#preloader {
+    position: fixed;
+    inset: 0;
+    z-index: 99999;
+    background: #000;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 18px;
+}
+
+.preloader-orb {
+    width: 90px;
+    height: 90px;
+    border-radius: 50%;
+    background: radial-gradient(circle, #ffcc40, #ff9922, #222);
+    animation: pulseGlow 2.2s infinite ease-in-out;
+}
+
+.preloader-logo {
+    width: 140px;
+    opacity: 0;
+    animation: fadeUp 1.2s ease forwards 0.4s;
+}
+
+.preloader-text {
+    color: var(--text-secondary);
+    font-size: 14px;
+    opacity: 0;
+    animation: fadeUp 1.2s ease forwards 0.7s;
+}
+
+@keyframes pulseGlow {
+    0%   { transform: scale(0.95); opacity: 0.7; }
+    50%  { transform: scale(1.05); opacity: 1; }
+    100% { transform: scale(0.95); opacity: 0.7; }
+}
+
+@keyframes fadeUp {
+    from { opacity: 0; transform: translateY(15px); }
+    to   { opacity: 1; transform: translateY(0); }
+}
+
+/* ============================================================
+   NAVBAR
+   ============================================================ */
+
+.navbar {
+    position: fixed;
+    top: 0;
+    width: 100%;
+    z-index: 9999;
+    padding: 18px 50px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    backdrop-filter: blur(12px);
+    background: rgba(0,0,0,0.35);
+    border-bottom: 1px solid rgba(255,255,255,0.08);
+}
+
+.nav-logo {
+    width: 130px;
+}
+
+.navbar nav {
+    display: flex;
+    gap: 30px;
+}
+
+.navbar nav a {
+    color: var(--text-secondary);
+    font-size: 15px;
+    text-decoration: none;
+    transition: 0.25s;
+}
+
+.navbar nav a:hover {
+    color: var(--text-primary);
+}
+
+/* ============================================================
+   CTA BUTTONS
+   ============================================================ */
+
+.cta-primary {
+    background: var(--accent);
+    color: #000;
+    padding: 14px 26px;
+    border-radius: 30px;
+    font-weight: 600;
+    font-size: 16px;
+    transition: 0.25s;
+}
+
+.cta-primary:hover {
+    background: #ffd765;
+}
+
+.cta-secondary {
+    background: rgba(255,255,255,0.12);
+    color: var(--text-primary);
+    padding: 14px 26px;
+    border-radius: 30px;
+    font-weight: 500;
+    font-size: 16px;
+    border: 1px solid rgba(255,255,255,0.2);
+    transition: 0.25s;
+}
+
+.cta-secondary:hover {
+    background: rgba(255,255,255,0.2);
+}
+
+/* ============================================================
+   SECTION 1 — HERO
+   ============================================================ */
+
+.hero-section {
+    position: relative;
+    height: 100vh;
+    overflow: hidden;
+}
+
+.hero-bg {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    filter: brightness(0.55);
+}
+
+.hero-energy {
+    position: absolute;
+    width: 450px;
+    opacity: 0.75;
+    bottom: 15%;
+    left: 8%;
+    animation: heroFloat 5s ease-in-out infinite;
+}
+
+.hero-coin {
+    position: absolute;
+    width: 200px;
+    top: 20%;
+    right: 10%;
+    opacity: 0.85;
+    animation: coinFloat 4s ease-in-out infinite;
+}
+
+@keyframes heroFloat {
+    0%, 100% { transform: translateY(0px); }
+    50% { transform: translateY(-18px); }
+}
+
+@keyframes coinFloat {
+    0%, 100% { transform: translateY(0px) rotate(0deg); }
+    50% { transform: translateY(-25px) rotate(8deg); }
+}
+
+.hero-content {
+    position: absolute;
+    z-index: 10;
+    bottom: 18%;
+    left: 50%;
+    transform: translateX(-50%);
+    text-align: center;
+    max-width: 820px;
+}
+
+.hero-title {
+    font-size: 3.6rem;
+    font-weight: 700;
+    line-height: 1.15;
+}
+
+.hero-subtitle {
+    font-size: 1.3rem;
+    margin-top: 18px;
+    opacity: 0.75;
+}
+
+.hero-content button {
+    margin-top: 28px;
+    margin-right: 12px;
+}
+
+/* ============================================================
+   SECTION 2 — SOLAR CYCLE (DAY → MONEY → NIGHT)
+   ============================================================ */
+
+.solar-cycle {
+    position: relative;
+    height: 300vh;
+    width: 100%;
+    overflow: hidden;
+}
+
+.cycle-layer {
+    position: fixed;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    opacity: 0;
+    text-align: center;
+    transform: translateY(0);
+}
+
+.cycle-bg {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    filter: brightness(0.6);
+    z-index: 0;
+}
+
+.cycle-title {
+    font-size: 2.8rem;
+    font-weight: 700;
+    z-index: 2;
+    text-shadow: 0 4px 18px rgba(0,0,0,0.5);
+}
+
+.cycle-sub {
+    font-size: 1.2rem;
+    margin-top: 14px;
+    opacity: 0.8;
+    z-index: 2;
+}
+
+.cycle-coin {
+    width: 240px;
+    z-index: 2;
+    animation: cycleFloat 4s ease-in-out infinite;
+}
+
+.cycle-energy {
+    position: absolute;
+    width: 420px;
+    z-index: 1;
+    opacity: 0.55;
+    bottom: 5%;
+    animation: cycleFloat 5s ease-in-out infinite;
+}
+
+@keyframes cycleFloat {
+    0%, 100% { transform: translateY(0px); }
+    50% { transform: translateY(-18px); }
+}
+
+.layer-day {
+    z-index: 3;
+}
+.layer-money {
+    z-index: 4;
+}
+.layer-night {
+    z-index: 2;
+}
+
+/* Money particles container */
+#moneyParticles img.coinParticle {
+    position: fixed;
+    width: 40px;
+    opacity: 0;
+}
+
+
+/* ============================================================
+   SECTION 3 — MISSION
+   ============================================================ */
+
+.mission-section {
+    position: relative;
+    padding: 200px 60px;
+    background: #000;
+    z-index: 10;
+}
+
+.mission-glow {
+    position: absolute;
+    top: -20%;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 1000px;
+    height: 1000px;
+    background: radial-gradient(circle,
+        rgba(255,204,64,0.22),
+        rgba(0,0,0,0)
+    );
+    filter: blur(140px);
+    opacity: 0.7;
+    z-index: 0;
+}
+
+.mission-block {
+    position: relative;
+    max-width: 900px;
+    margin: 0 auto 160px auto;
+    padding: 40px;
+    background: rgba(255,255,255,0.03);
+    border: 1px solid rgba(255,255,255,0.07);
+    border-radius: 20px;
+    backdrop-filter: blur(10px);
+    z-index: 5;
+    opacity: 0;
+    transform: translateY(40px);
+}
+
+.block-problem {
+    border-left: 4px solid #ff5353;
+}
+.block-mission {
+    border-left: 4px solid #ffcc40;
+}
+.block-vision {
+    border-left: 4px solid #22ff88;
+}
+
+.mission-title {
+    font-size: 2.4rem;
+    font-weight: 700;
+    margin-bottom: 18px;
+}
+
+.mission-text {
+    font-size: 1.2rem;
+    line-height: 1.6;
+    opacity: 0.85;
+}
+
+/* ---- Chart ---- */
+
+.chart-container {
+    margin-top: 40px;
+    width: 100%;
+    height: 180px;
+    position: relative;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+}
+
+.chart-bar {
+    width: 28%;
+    background: linear-gradient(to top,
+        rgba(255,204,64,0.9),
+        rgba(255,255,255,0.1)
+    );
+    border-radius: 6px;
+    position: relative;
+    transform-origin: bottom;
+    transform: scaleY(0);
+}
+
+.bar1 { height: 40%; }
+.bar2 { height: 70%; }
+.bar3 { height: 100%; }
+
+.chart-labels {
+    position: absolute;
+    bottom: -28px;
+    width: 100%;
+    text-align: center;
+    display: flex;
+    justify-content: space-between;
+    color: rgba(255,255,255,0.5);
+    font-size: 14px;
+}
+
+/* Fade-up reveal */
+@keyframes fadeUpBlock {
+    from { opacity: 0; transform: translateY(60px); }
+    to   { opacity: 1; transform: translateY(0); }
+}
+
+/* ============================================================
+   SECTION 4 — DASHBOARD
+   ============================================================ */
+
+.dashboard-section {
+    padding: 200px 60px;
+    background: #000;
+    position: relative;
+}
+
+.dashboard-title-block {
+    text-align: center;
+    margin-bottom: 80px;
+}
+
+.dashboard-title {
+    font-size: 3rem;
+    margin-bottom: 16px;
+}
+
+.dashboard-sub {
+    font-size: 1.2rem;
+    opacity: 0.75;
+    max-width: 580px;
+    margin: 0 auto;
+}
+
+.dashboard-showcase {
+    display: flex;
+    justify-content: center;
+    margin-top: 80px;
+}
+
+.dashboard-device {
+    width: 420px;
+    border-radius: 30px;
+    background: rgba(255,255,255,0.04);
+    padding: 25px;
+    border: 1px solid rgba(255,255,255,0.05);
+    backdrop-filter: blur(14px);
+    transform: translateY(40px);
+    opacity: 0;
+}
+
+.device-screen {
+    background: rgba(0,0,0,0.6);
+    border-radius: 18px;
+    padding: 20px;
+}
+
+.dash-row {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 22px;
+}
+
+.dash-label {
+    font-size: 1rem;
+    opacity: 0.7;
+}
+
+.dash-value {
+    font-size: 1.4rem;
+    font-weight: 600;
+}
+
+.production-orb {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    background: radial-gradient(circle,
+        rgba(255,204,64,0.9),
+        rgba(255,153,60,0.4),
+        transparent
+    );
+    position: absolute;
+    bottom: 20px;
+    right: 20px;
+    animation: orbPulse 3s infinite ease-in-out;
+    opacity: 0.8;
+}
+
+@keyframes orbPulse {
+    0%   { transform: scale(0.95); opacity: 0.7; }
+    50%  { transform: scale(1.15); opacity: 1; }
+    100% { transform: scale(0.95); opacity: 0.7; }
+}
+
+/* Solar Graph */
+.solar-graph {
+    width: 100%;
+    height: 180px;
+    margin-top: 30px;
+}
+
+#solarCurve {
+    fill: none;
+    stroke: var(--accent);
+    stroke-width: 4px;
+    stroke-linecap: round;
+    opacity: 0.85;
+}
+
+/* ============================================================
+   SECTION 5 — EMI CALCULATOR
+   ============================================================ */
+
+.financing-section {
+    padding: 200px 60px;
+    background: #050505;
+}
+
+.financing-header {
+    text-align: center;
+    margin-bottom: 80px;
+}
+
+.financing-title {
+    font-size: 3rem;
+}
+
+.financing-sub {
+    font-size: 1.2rem;
+    opacity: 0.7;
+    margin-top: 14px;
+}
+
+.emi-calculator {
+    display: flex;
+    gap: 60px;
+    justify-content: center;
+    align-items: flex-start;
+    margin-top: 80px;
+    flex-wrap: wrap;
+}
+
+.emi-inputs {
+    display: flex;
+    flex-direction: column;
+    gap: 28px;
+}
+
+.slider-label {
+    font-size: 1.1rem;
+    opacity: 0.8;
+    margin-bottom: -10px;
+}
+
+/* Sliders */
+.emi-slider {
+    width: 260px;
+    appearance: none;
+    height: 6px;
+    background: rgba(255,255,255,0.15);
+    border-radius: 6px;
+    outline: none;
+}
+
+.emi-slider::-webkit-slider-thumb {
+    appearance: none;
+    width: 20px;
+    height: 20px;
+    background: var(--accent);
+    border-radius: 50%;
+    cursor: pointer;
+    border: 2px solid #ffffff;
+}
+
+.emi-output {
+    background: rgba(255,255,255,0.06);
+    padding: 40px;
+    border-radius: 20px;
+    border: 1px solid rgba(255,255,255,0.1);
+    backdrop-filter: blur(10px);
+    width: 380px;
+    text-align: center;
+}
+
+.emi-output-title {
+    font-size: 1.5rem;
+    margin-bottom: 10px;
+}
+
+.emi-value {
+    font-size: 2.4rem;
+    font-weight: 700;
+    margin-bottom: 30px;
+}
+
+/* EMI Graph */
+.emi-graph {
+    margin: 20px 0;
+}
+
+.emi-svg {
+    width: 100%;
+    height: 180px;
+}
+
+#emiCurve {
+    fill: none;
+    stroke: var(--green);
+    stroke-width: 4px;
+    stroke-linecap: round;
+}
+
+.emi-note {
+    font-size: 0.9rem;
+    opacity: 0.6;
+    margin-top: 10px;
+}
+
+/* Bottom CTA */
+.financing-cta {
+    display: flex;
+    justify-content: center;
+    margin-top: 80px;
+}
+
+.glow {
+    box-shadow: 0 0 25px rgba(255,204,64,0.45);
+}
+
+/* ============================================================
+   SECTION 6 — INSTALLATION TIMELINE
+   ============================================================ */
+
+.install-section {
+    padding: 200px 60px;
+    background: #000;
+    position: relative;
+}
+
+.install-header {
+    text-align: center;
+    margin-bottom: 100px;
+}
+
+.install-title {
+    font-size: 3rem;
+    margin-bottom: 14px;
+}
+
+.install-sub {
+    font-size: 1.2rem;
+    opacity: 0.7;
+}
+
+.install-timeline {
+    position: relative;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 60px;
+    justify-items: center;
+    margin-top: 80px;
+}
+
+.install-progress-line {
+    position: absolute;
+    top: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    height: 5px;
+    width: 80%;
+    background: linear-gradient(to right,
+        rgba(255,204,64,0.5),
+        rgba(34,255,136,0.5)
+    );
+    border-radius: 4px;
+    opacity: 0.4;
+}
+
+.install-step {
+    position: relative;
+    background: rgba(255,255,255,0.04);
+    border-radius: 16px;
+    padding: 30px;
+    border: 1px solid rgba(255,255,255,0.06);
+    backdrop-filter: blur(10px);
+    width: 260px;
+    text-align: center;
+    transform: translateY(30px);
+    opacity: 0;
+}
+
+.install-step h3 {
+    font-size: 1.3rem;
+    margin-top: 14px;
+    margin-bottom: 10px;
+}
+
+.install-step p {
+    font-size: 1rem;
+    opacity: 0.7;
+}
+
+.install-icon {
+    width: 90px;
+    height: 90px;
+    border-radius: 14px;
+    object-fit: cover;
+    margin-bottom: 10px;
+    opacity: 0.9;
+    box-shadow: 0 0 12px rgba(255,255,255,0.1);
+}
+
+.installer-cta {
+    display: flex;
+    justify-content: center;
+    margin-top: 80px;
+}
+
+/* ============================================================
+   SECTION 7 — FINAL CINEMATIC CTA
+   ============================================================ */
+
+.finalcta-section {
+    position: relative;
+    padding: 220px 60px;
+    background: #000;
+    color: #fff;
+    overflow: hidden;
+}
+
+.finalcta-glow {
+    position: absolute;
+    top: -20%;
+    left: 50%;
+    width: 1400px;
+    height: 1400px;
+    background: radial-gradient(circle,
+        rgba(255,204,80,0.25),
+        rgba(0,0,0,0)
+    );
+    transform: translateX(-50%);
+    filter: blur(140px);
+    z-index: 0;
+}
+
+.finalcta-bg {
+    position: absolute;
+    inset: 0;
+    width: 100%; height: 100%;
+    object-fit: cover;
+    opacity: 0.22;
+    filter: brightness(0.6);
+    z-index: 1;
+    transform: scale(1.1);
+}
+
+.finalcta-energy {
+    position: absolute;
+    bottom: 20%; right: 10%;
+    width: 380px;
+    opacity: 0.75;
+    animation: finalEnergyFloat 6s ease-in-out infinite;
+    z-index: 2;
+}
+
+@keyframes finalEnergyFloat {
+    0%,100% { transform: translateY(0); }
+    50% { transform: translateY(-20px); }
+}
+
+.finalcta-content {
+    position: relative;
+    z-index: 5;
+    max-width: 780px;
+    margin: 0 auto;
+    text-align: center;
+    opacity: 0;
+    transform: translateY(40px);
+}
+
+.finalcta-title {
+    font-size: 3rem;
+    font-weight: 700;
+}
+
+.finalcta-sub {
+    font-size: 1.2rem;
+    opacity: 0.75;
+    margin-top: 14px;
+}
+
+.finalcta-email {
+    margin-top: 40px;
+    display: flex;
+    justify-content: center;
+    gap: 16px;
+    flex-wrap: wrap;
+}
+
+.finalcta-input {
+    padding: 16px 20px;
+    width: 320px;
+    border-radius: 12px;
+    background: rgba(255,255,255,0.1);
+    border: 1px solid rgba(255,255,255,0.2);
+    color: #fff;
+    font-size: 1rem;
+}
+
+.finalcta-input::placeholder {
+    color: rgba(255,255,255,0.4);
+}
+
+.finalcta-btn {
+    padding: 16px 28px;
+    border-radius: 26px;
+    font-weight: 600;
+    background: var(--accent);
+    color: #000;
+}
+
+.finalcta-btn2 {
+    margin-top: 30px;
+    background: rgba(255,255,255,0.08);
+    padding: 14px 26px;
+    border-radius: 26px;
+    border: 1px solid rgba(255,255,255,0.2);
+    color: #fff;
+}
+
+.finalcta-btn2:hover {
+    background: rgba(255,255,255,0.15);
+}
+
+/* ============================================================
+   FOOTER (IF YOU ADD ONE)
+   ============================================================ */
+
+.footer {
+    padding: 60px;
+    background: #000;
+    color: var(--text-secondary);
+    text-align: center;
+    font-size: 0.9rem;
+}
+
+/* ============================================================
+   RESPONSIVE POLISH
+   ============================================================ */
+
+@media (max-width: 780px) {
+
+    .navbar {
+        padding: 16px 28px;
+    }
+
+    .hero-title {
+        font-size: 2.4rem;
+    }
+
+    .hero-energy {
+        width: 260px;
+    }
+
+    .hero-coin {
+        width: 160px;
+    }
+
+    .dashboard-device {
+        width: 90%;
+    }
+
+    .install-timeline {
+        grid-template-columns: 1fr;
+    }
+
+    .finalcta-title {
+        font-size: 2.3rem;
+    }
+
+    .finalcta-energy {
+        width: 280px;
+        right: 4%;
+    }
+}
