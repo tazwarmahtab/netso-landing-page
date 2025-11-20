@@ -1,328 +1,273 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Netso – Intelligent Solar for Bangladesh</title>
-
-  <!-- Tailwind CDN -->
-  <script src="https://cdn.tailwindcss.com"></script>
-
-  <!-- GSAP Animation Engine -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
-
-  <style>
-    html, body {
-      scroll-behavior: smooth;
-      -webkit-font-smoothing: antialiased;
-      text-rendering: optimizeLegibility;
-      background: #ffffff;
-    }
-
-    .card {
-      border-radius: 1.75rem;
-      background: #ffffff;
-      box-shadow: 0 18px 42px rgba(0,0,0,0.06);
-      transition: transform .3s ease;
-    }
-
-    .card:hover {
-      transform: translateY(-4px);
-    }
-
-    .glass {
-      background: rgba(255,255,255,0.88);
-      backdrop-filter: blur(22px);
-      box-shadow: 0 8px 40px rgba(0,0,0,0.12);
-      border-radius: 2rem;
-    }
-
-    .parallax-bg {
-      background-size: cover;
-      background-position: center;
-      background-attachment: fixed;
-    }
-
-    /* Solar ray columns */
-    .solar-ray {
-      background: linear-gradient(to bottom,
-        rgba(250, 204, 21, 0) 0%,
-        rgba(250, 204, 21, 0.45) 50%,
-        rgba(250, 204, 21, 0) 100%
-      );
-      opacity: 0.35;
-    }
-
-    .solar-orb {
-      background: radial-gradient(circle at center,
-        rgba(250, 204, 21, 0.35),
-        transparent 70%);
-    }
-
-  </style>
-
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Netso – Intelligent Solar for Bangladesh</title>
+    <link rel="stylesheet" href="style.css" />
 </head>
+<body>
 
-<body class="text-neutral-900">
+<!-- ================= PRELOADER ================= -->
+<div id="preloader">
+    <div class="preloader-orb"></div>
+    <img src="assets/netso_logo.png" class="preloader-logo" />
+    <p class="preloader-text">Powering Bangladesh...</p>
+</div>
 
-<!-- NAVBAR -->
-<nav class="sticky top-0 z-50 backdrop-blur bg-white/80 border-b border-neutral-100">
-  <div class="max-w-6xl mx-auto px-6 py-4 flex justify-between items-center">
-    <div class="flex items-center gap-2">
-      <div class="h-7 w-7 rounded-xl bg-gradient-to-br from-amber-400 via-yellow-300 to-emerald-400 shadow"></div>
-      <span class="text-lg font-semibold tracking-tight">Netso</span>
-    </div>
-
-    <div class="hidden md:flex gap-8 text-sm text-neutral-600">
-      <a href="#how" class="hover:text-black">How It Works</a>
-      <a href="#dashboard" class="hover:text-black">Dashboard</a>
-      <a href="#finance" class="hover:text-black">Financing</a>
-      <a href="#install" class="hover:text-black">Installation</a>
-    </div>
-
-    <button class="rounded-full bg-neutral-900 text-white px-5 py-2 text-sm hover:bg-black transition">
-      Join Waitlist
-    </button>
-  </div>
-</nav>
-
-<!-- CINEMATIC HERO -->
-<header class="relative h-[92vh] w-full overflow-hidden flex items-center">
-
-  <!-- Bangladesh rooftop background -->
-  <div 
-    class="absolute inset-0 bg-cover bg-center parallax-bg"
-    style="background-image: url('https://source.unsplash.com/1600x900/?bangladesh,rooftop,solar');">
-  </div>
-
-  <!-- Cinematic gradient glow -->
-  <div class="absolute -top-32 -left-32 w-[450px] h-[450px] rounded-full solar-orb blur-3xl"></div>
-  <div class="absolute -bottom-32 -right-32 w-[450px] h-[450px] rounded-full solar-orb blur-3xl opacity-40"></div>
-
-  <!-- Solar ray container -->
-  <div id="solarRays" class="absolute inset-0 pointer-events-none"></div>
-
-  <!-- HERO COPY -->
-  <div class="relative z-10 max-w-6xl mx-auto px-6">
-    <h1 class="text-5xl md:text-6xl font-semibold leading-tight tracking-tight mb-6 opacity-0" id="heroTitle">
-      Powering Bangladesh<br />with Intelligent Solar.
-    </h1>
-
-    <p class="text-neutral-700 text-lg max-w-xl mb-10 opacity-0" id="heroSub">
-      Clean energy, effortless monitoring, and flexible EMI financing —  
-      all in one beautifully intelligent solar system.
-    </p>
-
-    <div class="flex gap-4 opacity-0" id="heroButtons">
-      <button class="px-6 py-3 rounded-full bg-neutral-900 text-white hover:bg-black transition">
-        Get Started
-      </button>
-      <button class="px-6 py-3 rounded-full border border-neutral-300 hover:bg-neutral-100 transition">
-        Explore Dashboard
-      </button>
-    </div>
-  </div>
-
-  <!-- Floating Dashboard Glass Card -->
-  <div 
-    id="floatingCard"
-    class="absolute right-8 md:right-20 bottom-8 md:bottom-20 w-[280px] sm:w-[320px] glass p-6 opacity-0">
-
-    <p class="text-[11px] uppercase tracking-widest text-neutral-500">Today’s Production</p>
-    <p class="text-4xl font-semibold text-emerald-600">18.4 kWh</p>
-    <p class="text-xs text-neutral-500 mt-1">+32% vs Weekday</p>
-
-    <div class="h-px w-full bg-gradient-to-r from-amber-300 via-neutral-300 to-emerald-300 my-4"></div>
-
-    <p class="text-[11px] uppercase tracking-widest text-neutral-500">Monthly Savings</p>
-    <p class="text-3xl font-semibold text-amber-500">৳ 4,820</p>
-
-    <p class="mt-4 text-[11px] text-neutral-500">
-      Designed like an Apple product.<br />Powered by Bangladesh’s sunlight.
-    </p>
-  </div>
-
+<!-- ================= NAVBAR ================= -->
+<header class="navbar">
+    <img src="assets/netso_logo.png" class="nav-logo" />
+    <nav>
+        <a href="#mission">Mission</a>
+        <a href="#solarCycle">How It Works</a>
+        <a href="#dashboard">Dashboard</a>
+        <a href="#financing">Financing</a>
+        <a href="#install">Installation</a>
+    </nav>
 </header>
 
-<!-- HOW NETSO WORKS -->
-<section id="how" class="max-w-6xl mx-auto px-6 py-24">
-  <h2 class="text-3xl font-semibold mb-2">How Netso Works</h2>
-  <p class="text-neutral-600 max-w-xl mb-12">A seamless, intelligent solar journey — explained visually.</p>
+<!-- ================= SECTION 1: HERO ================= -->
+<section id="hero" class="hero-section">
+    <img src="assets/solar_day.jpg" class="hero-bg layer-back">
+    <img src="assets/energy_orange.png" class="hero-energy layer-mid">
+    <img src="assets/coin_light.jpg" class="hero-coin layer-front">
 
-  <div class="grid md:grid-cols-3 gap-8">
-    <div class="card p-10" id="step1">
-      <img src="https://source.unsplash.com/300x300/?bangladesh,home" class="rounded-2xl mb-6 w-full">
-      <h3 class="font-semibold text-lg mb-2">Assess Your Rooftop</h3>
-      <p class="text-neutral-600">We evaluate your building & design the ideal system.</p>
+    <div class="hero-content">
+        <h1 class="hero-title">Powering Bangladesh with Intelligent Solar</h1>
+        <p class="hero-subtitle">
+            Clean energy. Smart monitoring. Real savings that grow over time.
+        </p>
+        <button class="cta-primary">Get Started</button>
+        <button class="cta-secondary">Explore Dashboard</button>
     </div>
-
-    <div class="card p-10" id="step2">
-      <img src="https://source.unsplash.com/300x300/?solar,panel" class="rounded-2xl mb-6 w-full">
-      <h3 class="font-semibold text-lg mb-2">Install Seamlessly</h3>
-      <p class="text-neutral-600">Certified professionals handle everything.</p>
-    </div>
-
-    <div class="card p-10" id="step3">
-      <img src="https://source.unsplash.com/300x300/?energy,dashboard" class="rounded-2xl mb-6 w-full">
-      <h3 class="font-semibold text-lg mb-2">Track & Save</h3>
-      <p class="text-neutral-600">Live monitoring, production insights & savings.</p>
-    </div>
-  </div>
 </section>
 
-<!-- DASHBOARD PREVIEW -->
-<section id="dashboard" class="w-full bg-neutral-50 py-24">
-  <div class="max-w-6xl mx-auto px-6">
-    <h2 class="text-3xl font-semibold mb-2">Your Intelligent Dashboard</h2>
-    <p class="text-neutral-600 max-w-xl mb-12">Designed with world-class UI. Built for Bangladesh.</p>
+<!-- ================= SECTION 2: SOLAR CYCLE ================= -->
+<section id="solarCycle" class="solar-cycle">
 
-    <div class="glass p-10 shadow-xl" id="dashPreview">
+    <div class="cycle-layer layer-day">
+        <img src="assets/solar_day.jpg" class="cycle-bg" />
+        <img src="assets/energy_orange.png" class="cycle-energy" />
+        <h2 class="cycle-title">Daytime Solar Production</h2>
+        <p class="cycle-sub">Panels harvesting sunlight across Bangladesh</p>
+    </div>
 
-      <div class="grid md:grid-cols-3 gap-10">
-        <div>
-          <p class="text-neutral-500 text-sm">Today's Production</p>
-          <p class="text-4xl font-semibold text-emerald-600 mt-2">124.3 kWh</p>
+    <div class="cycle-layer layer-money">
+        <img src="assets/coin_light.jpg" class="cycle-coin" />
+        <h2 class="cycle-title">You Generate Money</h2>
+        <p class="cycle-sub">Netso converts sunlight into savings</p>
+        <div id="moneyParticles"></div>
+    </div>
+
+    <div class="cycle-layer layer-night">
+        <img src="assets/solar_night.jpg" class="cycle-bg" />
+        <img src="assets/energy_green.png" class="cycle-energy" />
+        <h2 class="cycle-title">Nighttime Power Usage</h2>
+        <p class="cycle-sub">Lower bills, smoother energy flow</p>
+    </div>
+
+</section>
+
+<!-- ================= SECTION 3: MISSION ================= -->
+<section id="mission" class="mission-section">
+    <div class="mission-glow"></div>
+
+    <div class="mission-block block-problem">
+        <h2 class="mission-title">Bangladesh Is Facing an Energy Crisis</h2>
+        <p class="mission-text">
+            Electricity prices have increased over <strong>93% in the last decade</strong>.
+            Load-shedding disrupts millions. Bills keep rising.
+        </p>
+
+        <div class="chart-container">
+            <div class="chart-bar bar1"></div>
+            <div class="chart-bar bar2"></div>
+            <div class="chart-bar bar3"></div>
+            <div class="chart-labels">
+                <span>2014</span><span>2019</span><span>2024</span>
+            </div>
+        </div>
+    </div>
+
+    <div class="mission-block block-mission">
+        <h2 class="mission-title">Our Mission</h2>
+        <p class="mission-text">
+            To make clean solar energy accessible to every Bangladeshi home —
+            reducing bills, boosting reliability, and enabling rooftop income.
+        </p>
+    </div>
+
+    <div class="mission-block block-vision">
+        <h2 class="mission-title">A Brighter Future</h2>
+        <p class="mission-text">
+            With Netso, solar becomes simple — monitor, save, earn, and stay powered.
+        </p>
+    </div>
+</section>
+
+<!-- ================= SECTION 4: LIVE DASHBOARD ================= -->
+<section id="dashboard" class="dashboard-section">
+
+    <div class="dashboard-title-block">
+        <h2 class="dashboard-title">Your Solar System, Live</h2>
+        <p class="dashboard-sub">
+            Real-time production, savings, and system health — all in one dashboard.
+        </p>
+    </div>
+
+    <div class="dashboard-showcase">
+        <div class="dashboard-device">
+            <div class="device-screen">
+
+                <div class="dash-row">
+                    <p class="dash-label">Today's Generation</p>
+                    <p class="dash-value" id="kwhCounter">0.0 kWh</p>
+                </div>
+
+                <div class="dash-row">
+                    <p class="dash-label">Monthly Savings</p>
+                    <p class="dash-value" id="savingsCounter">৳ 0</p>
+                </div>
+
+                <div class="dash-row">
+                    <p class="dash-label">CO₂ Avoided</p>
+                    <p class="dash-value" id="co2Counter">0 kg</p>
+                </div>
+
+                <svg id="solarGraph" class="solar-graph" viewBox="0 0 500 180">
+                    <path id="solarCurve" d="M 0 140 Q 120 20 250 80 Q 380 140 500 60" />
+                </svg>
+
+                <div class="production-orb"></div>
+
+            </div>
+        </div>
+    </div>
+
+</section>
+
+<!-- ================= SECTION 5: EMI CALCULATOR ================= -->
+<section id="financing" class="financing-section">
+
+    <div class="financing-header">
+        <h2 class="financing-title">Solar That Pays for Itself</h2>
+        <p class="financing-sub">
+            Flexible EMI options designed for Bangladesh.
+        </p>
+    </div>
+
+    <div class="emi-calculator">
+        <div class="emi-inputs">
+            <label class="slider-label">System Size (kW):</label>
+            <input type="range" min="3" max="10" value="5" class="emi-slider" id="kwSlider" />
+
+            <label class="slider-label">Tenure (months):</label>
+            <input type="range" min="12" max="60" value="36" class="emi-slider" id="monthsSlider" />
         </div>
 
-        <div>
-          <p class="text-neutral-500 text-sm">Monthly Savings</p>
-          <p class="text-4xl font-semibold text-amber-500 mt-2">৳ 38,900</p>
+        <div class="emi-output">
+            <h3 class="emi-output-title">Your Monthly EMI</h3>
+            <p id="emiValue" class="emi-value">৳ 0</p>
+
+            <div class="emi-graph">
+                <svg class="emi-svg" viewBox="0 0 500 200">
+                    <path id="emiCurve" d="M 0 180 Q 120 120 250 140 Q 380 160 500 60" />
+                </svg>
+            </div>
+
+            <p class="emi-note">Estimated cost includes installation, inverter, panels & smart meter.</p>
+        </div>
+    </div>
+
+    <div class="financing-cta">
+        <button class="cta-primary glow">Check Eligibility</button>
+    </div>
+
+</section>
+
+<!-- ================= SECTION 6: INSTALL TIMELINE ================= -->
+<section id="install" class="install-section">
+
+    <div class="install-header">
+        <h2 class="install-title">Installation, Without The Headache</h2>
+        <p class="install-sub">We manage everything — survey to monitoring.</p>
+    </div>
+
+    <div class="install-timeline">
+
+        <div class="install-progress-line"></div>
+
+        <div class="install-step">
+            <img src="assets/energy_orange.png" class="install-icon">
+            <h3>1. Site Assessment</h3>
+            <p>We survey your rooftop to design an optimal system.</p>
         </div>
 
-        <div>
-          <p class="text-neutral-500 text-sm">CO₂ Avoided</p>
-          <p class="text-4xl font-semibold text-neutral-800 mt-2">640 kg</p>
+        <div class="install-step">
+            <img src="assets/solar_day.jpg" class="install-icon">
+            <h3>2. System Design</h3>
+            <p>Smart layout for maximum kWh output.</p>
         </div>
-      </div>
+
+        <div class="install-step">
+            <img src="assets/coin_light.jpg" class="install-icon">
+            <h3>3. Financing Approval</h3>
+            <p>Easy EMI approval.</p>
+        </div>
+
+        <div class="install-step">
+            <img src="assets/solar_night.jpg" class="install-icon">
+            <h3>4. Installation</h3>
+            <p>Certified installers complete setup in 1–3 days.</p>
+        </div>
+
+        <div class="install-step">
+            <img src="assets/netso_logo.png" class="install-icon">
+            <h3>5. Smart Meter Setup</h3>
+            <p>Your system connects to the cloud.</p>
+        </div>
+
+        <div class="install-step">
+            <img src="assets/energy_green.png" class="install-icon">
+            <h3>6. Live Monitoring</h3>
+            <p>Track everything through the Netso app.</p>
+        </div>
 
     </div>
-  </div>
+
+    <div class="installer-cta">
+        <button class="cta-primary glow">Become an Installer</button>
+    </div>
+
 </section>
 
-<!-- FINANCING -->
-<section id="finance" class="max-w-6xl mx-auto px-6 py-24">
-  <h2 class="text-3xl font-semibold mb-2">Financing Designed for Bangladesh</h2>
-  <p class="text-neutral-600 max-w-xl mb-12">Go solar without the upfront pain. Flexible EMI options for all.</p>
+<!-- ================= SECTION 7: FINAL CTA ================= -->
+<section id="finalCTA" class="finalcta-section">
 
-  <div class="grid md:grid-cols-3 gap-8">
+    <div class="finalcta-glow"></div>
+    <img src="assets/solar_night.jpg" class="finalcta-bg" />
+    <img src="assets/energy_green.png" class="finalcta-energy" />
 
-    <div class="card p-10">
-      <h3 class="font-semibold text-xl mb-2">EMI Plans</h3>
-      <p class="text-neutral-600">Pay in 12–60 months.</p>
+    <div class="finalcta-content">
+        <h2 class="finalcta-title">Bangladesh’s Solar Future Starts With You</h2>
+        <p class="finalcta-sub">
+            Join thousands choosing reliable, clean, affordable energy.
+        </p>
+
+        <div class="finalcta-email">
+            <input type="email" placeholder="Enter your email" class="finalcta-input" />
+            <button class="cta-primary finalcta-btn">Join Waitlist</button>
+        </div>
+
+        <button class="cta-secondary finalcta-btn2">Become an Installer</button>
     </div>
-
-    <div class="card p-10">
-      <h3 class="font-semibold text-xl mb-2">Lease-to-own</h3>
-      <p class="text-neutral-600">Own the system at the end of term.</p>
-    </div>
-
-    <div class="card p-10">
-      <h3 class="font-semibold text-xl mb-2">Pay-as-you-generate</h3>
-      <p class="text-neutral-600">Perfect for factories & businesses.</p>
-    </div>
-
-  </div>
 </section>
 
-<!-- INSTALLATION -->
-<section id="install" class="py-24 bg-white">
-  <div class="max-w-6xl mx-auto px-6">
-
-    <h2 class="text-3xl font-semibold mb-2">Installation Journey</h2>
-    <p class="text-neutral-600 max-w-xl mb-12">Every step handled smoothly — end to end.</p>
-
-    <ol class="grid md:grid-cols-6 grid-cols-2 gap-6 text-center">
-
-      <li class="card p-6">1. Assessment</li>
-      <li class="card p-6">2. Design</li>
-      <li class="card p-6">3. Financing</li>
-      <li class="card p-6">4. Installation</li>
-      <li class="card p-6">5. Meter Setup</li>
-      <li class="card p-6">6. Monitoring</li>
-
-    </ol>
-
-  </div>
-</section>
-
-<!-- FOOTER -->
-<footer class="border-t border-neutral-200 py-10">
-  <div class="max-w-6xl mx-auto px-6 flex justify-between text-sm text-neutral-500">
-    <span>© 2025 Netso Energy</span>
-    <div class="flex gap-6">
-      <a href="#" class="hover:text-black">About</a>
-      <a href="#" class="hover:text-black">Careers</a>
-      <a href="#" class="hover:text-black">Contact</a>
-    </div>
-  </div>
-</footer>
-
-<!-- GSAP ANIMATIONS (HERO + SECTIONS) -->
-<script>
-gsap.registerPlugin(ScrollTrigger);
-
-/* Build solar rays */
-const rays = document.getElementById("solarRays");
-let raysHTML = "";
-for (let i = 0; i < 16; i++) {
-  raysHTML += `
-    <div class="absolute top-0 solar-ray w-[3px] h-full left-[${i * 6}%]"></div>
-  `;
-}
-rays.innerHTML = raysHTML;
-
-/* Solar ray movement */
-gsap.to("#solarRays div", {
-  y: 80,
-  repeat: -1,
-  duration: 4,
-  ease: "power1.inOut",
-  stagger: 0.2,
-  yoyo: true
-});
-
-/* Parallax hero background */
-gsap.to(".parallax-bg", {
-  y: 60,
-  ease: "none",
-  scrollTrigger: {
-    trigger: ".parallax-bg",
-    start: "top top",
-    end: "bottom top",
-    scrub: true
-  }
-});
-
-/* Hero elements */
-gsap.from("#heroTitle", {opacity: 0, y: 40, duration: 1});
-gsap.from("#heroSub", {opacity: 0, y: 40, duration: 1, delay: .3});
-gsap.from("#heroButtons", {opacity: 0, y: 40, duration: 1, delay: .6});
-gsap.from("#floatingCard", {opacity: 0, y: 60, scale: .92, duration: 1.2, ease: "easeOut"});
-
-/* Step Cards (How It Works) */
-gsap.from("#step1, #step2, #step3", {
-  opacity: 0,
-  y: 40,
-  duration: 1,
-  stagger: .2,
-  scrollTrigger: {
-    trigger: "#how",
-    start: "top 80%"
-  }
-});
-
-/* Dashboard Preview */
-gsap.from("#dashPreview", {
-  opacity: 0,
-  y: 60,
-  duration: 1.1,
-  scrollTrigger: {
-    trigger: "#dashboard",
-    start: "top 80%"
-  }
-});
-</script>
+<!-- SCRIPTS -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.4/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.4/ScrollTrigger.min.js"></script>
+<script src="animations.js"></script>
 
 </body>
 </html>
