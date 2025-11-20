@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Netso – Solar Tech Landing Page</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        /* Basic reset */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: Arial, sans-serif;
+            color: #F5F5F5;
+            background: linear-gradient(180deg, #0a1429, #08121f);
+            overflow-x: hidden;
+        }
+        h1, h2, h3, p {
+            margin-bottom: 1rem;
+        }
+        section {
+            padding: 80px 20px;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+        }
+        .glass-card {
+            backdrop-filter: blur(10px);
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            padding: 40px;
+            margin: 20px;
+            max-width: 600px;
+            width: 100%;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        .button {
+            display: inline-block;
+            padding: 12px 24px;
+            margin: 10px;
+            border-radius: 30px;
+            background: #0066cc;
+            color: white;
+            text-decoration: none;
+            transition: background 0.3s ease;
+        }
+        .button:hover {
+            background: #004999;
+        }
+        .form-field {
+            margin: 12px 0;
+            width: 100%;
+        }
+        .form-field input {
+            width: 100%;
+            padding: 12px;
+            border-radius: 8px;
+            border: none;
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+        }
+        .submit-btn {
+            width: 100%;
+            padding: 12px;
+            border-radius: 8px;
+            border: none;
+            background: #00aaff;
+            color: white;
+            font-size: 16px;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+        .submit-btn:hover {
+            background: #0088cc;
+        }
+        .success-message {
+            color: #00cc66;
+            margin-top: 20px;
+            display: none;
+        }
+        /* Scroll animation classes */
+        .hidden {
+            opacity: 0;
+            transform: translateY(40px);
+            transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+        }
+        .visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        /* Responsive design */
+        @media (min-width: 768px) {
+            section {
+                flex-direction: row;
+                text-align: left;
+                padding: 80px;
+            }
+            .glass-card {
+                margin: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<!-- Hero Section -->
+<section id="hero" style="background-image: url('https://source.unsplash.com/1600x900/?bangladesh,solar'); background-size: cover; background-position: center;">
+    <div class="glass-card hidden">
+        <h1>Netso – Solar Tech</h1>
+        <p>Clean energy. Smarter future for Bangladesh.</p>
+        <a href="#enroll" class="button">Enroll Now</a>
+        <a href="#contact" class="button">Contact Us</a>
+    </div>
+</section>
+
+<!-- Landlord Enrollment Section -->
+<section id="enroll">
+    <div class="glass-card hidden">
+        <h2>Landlord Enrollment</h2>
+        <p>Join our platform to bring sustainable solar solutions to your properties. Our glass‑morphism card fades in gracefully to welcome prospective landlords.</p>
+        <div>
+            <a href="#assessment" class="button">Book Assessment</a>
+            <a href="#contact" class="button">Contact Team</a>
+        </div>
+    </div>
+    <div class="glass-card hidden">
+        <img src="https://source.unsplash.com/600x400/?bangladesh,city" alt="Bangladesh city" style="width:100%; border-radius:12px;">
+    </div>
+</section>
+
+<!-- Waitlist Signup Section -->
+<section id="waitlist">
+    <div class="glass-card hidden">
+        <h2>Waitlist Signup Form with Validation</h2>
+        <p>Be among the first to experience our transit solution. Sign up for our waitlist.</p>
+        <form id="signup-form">
+            <div class="form-field">
+                <input type="text" id="name" placeholder="Name" required>
+            </div>
+            <div class="form-field">
+                <input type="tel" id="phone" placeholder="Phone" required>
+            </div>
+            <div class="form-field">
+                <input type="email" id="email" placeholder="Email" required>
+            </div>
+            <div class="form-field">
+                <input type="text" id="location" placeholder="Location" required>
+            </div>
+            <button type="submit" class="submit-btn">Join Waitlist</button>
+            <div class="success-message" id="success-message">Thank you! You've been added to the waitlist.</div>
+        </form>
+    </div>
+</section>
+
+<!-- Features Section -->
+<section id="features">
+    <div class="glass-card hidden">
+        <h2>Stylish & Responsive Design</h2>
+        <ul style="list-style: none; padding-left: 0; text-align:left;">
+            <li>• Glass‑morphism styling for an elegant, modern interface.</li>
+            <li>• Four validated input fields capture Name, Phone, Email, Location.</li>
+            <li>• Accent‑colored submit button triggers form validation and success alert.</li>
+            <li>• Viewport‑triggered entrance animations for dynamic, engaging experiences.</li>
+            <li>• Dark color scheme with blue accents for visual harmony.</li>
+            <li>• Section‑specific backgrounds for visual separation.</li>
+        </ul>
+    </div>
+</section>
+
+<!-- Footer -->
+<footer style="padding:40px; text-align:center; background:#010e24;">
+    &copy; 2025 Netso – TransitBD. All rights reserved.
+</footer>
+
+<script>
+    // IntersectionObserver for scroll animations
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('visible');
+            }
+        });
+    }, {
+        threshold: 0.2
+    });
+    document.querySelectorAll('.hidden').forEach(el => observer.observe(el));
+
+    // Form validation and submission
+    document.getElementById('signup-form').addEventListener('submit', function (e) {
+        e.preventDefault();
+        const name = document.getElementById('name').value.trim();
+        const phone = document.getElementById('phone').value.trim();
+        const email = document.getElementById('email').value.trim();
+        const location = document.getElementById('location').value.trim();
+        if (name && phone && email && location) {
+            document.getElementById('success-message').style.display = 'block';
+            this.reset();
+        }
+    });
+</script>
+
+</body>
+</html>
